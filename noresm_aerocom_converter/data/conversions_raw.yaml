@@ -88,9 +88,19 @@ convclt:
   formula: x.CNVCLD
   new_name: convclt
   units: '1'
+drybc:
+  coordinates: Surface
+  formula: (x.BC_ACDDF+x.BC_AC_OCWDDF+x.BC_ADDF+x.BC_AIDDF+x.BC_AI_OCWDDF+x.BC_AXDDF+x.BC_A_OCWDDF+x.BC_NDDF+x.BC_NIDDF+x.BC_NI_OCWDDF+x.BC_N_OCWDDF)
+  new_name: drybc
+  units: kg m-2 s-1
+dryoa:
+  coordinates: Surface
+  formula: (x.OM_ACDDF+x.OM_AIDDF+x.OM_NIDDF+x.OM_AC_OCWDDF+x.OM_AI_OCWDDF+x.OM_NI_OCWDDF+x.SOA_A1DDF+x.SOA_NADDF+x.SOA_A1_OCWDDF+x.SOA_NA_OCWDDF)
+  new_name: dryoa
+  units: kg m-2 s-1
 drydust:
   coordinates: Surface
-  formula: -1.0*(x.DST_A2DDF+x.DST_A3DDF+x.DST_A2_OCWDDF+x.DST_A3_OCWDDF)
+  formula: (x.DST_A2DDF+x.DST_A3DDF+x.DST_A2_OCWDDF+x.DST_A3_OCWDDF)
   new_name: drydust
   units: kg m-2 s-1
 drydustDSTA2:
@@ -103,11 +113,26 @@ drydustDSTA3:
   formula: -1.0*(x.DST_A3DDF+x.DST_A3_OCWDDF)
   new_name: drydustDSTA3
   units: kg m-2 s-1
+dryso2:
+  coordinates: Surface
+  formula: (x.DF_SO2)
+  new_name: dryso2
+  units: kg m-2 s-1
+dryso4:
+  coordinates: Surface
+  formula: (x.SO4_A1DDF+x.SO4_A2DDF+x.SO4_ACDDF+x.SO4_NADDF+x.SO4_PRDDF+x.SO4_A1_OCWDDF+x.SO4_A2_OCWDDF+x.SO4_AC_OCWDDF+x.SO4_NA_OCWDDF+x.SO4_PR_OCWDDF)
+  new_name: dryso4
+  units: kg m-2 s-1
+dryss:
+  coordinates: Surface
+  formula: (x.SS_A1DDF+x.SS_A2DDF+x.SS_A3DDF+x.SS_A1_OCWDDF+x.SS_A2_OCWDDF+x.SS_A3_OCWDDF)
+  new_name: dryss
+  units: kg m-2 s-1
 emidust:
   coordinates: Surface
-  formula: x.SFDST_A2+x.SFDST_A3
+  formula: (x.SFDST_A2+x.SFDST_A3)*1e6*24*3600
   new_name: emidust
-  units: kg m-2 s-1
+  units: mg m-2 d-1
 emidustDSTA2:
   coordinates: Surface
   formula: x.SFDST_A2
@@ -118,6 +143,41 @@ emidustDSTA3:
   formula: x.SFDST_A3
   new_name: emidustDSTA3
   units: kg m-2 s-1
+emibc:
+  coordinates: Surface
+  formula: (x.SFBC_A+x.SFBC_AC+x.SFBC_AI+x.SFBC_AX+x.SFBC_N+x.SFBC_NI+x.BC_AX_CMXF+x.BC_NI_CMXF+x.BC_N_CMXF)*1e6*24*3600
+  new_name: emibc
+  units: mg m-2 d-1
+emidms:
+  coordinates: Surface
+  formula: (x.SFDMS)*1e6*24*3600
+  new_name: emidms
+  units: mg m-2 d-1
+emioa:
+  coordinates: Surface
+  formula: (x.SFOM_AC+x.SFOM_AI+x.SFOM_NI+x.OM_NI_CMXF)*1e6*24*3600
+  new_name: emioa
+  units: mg m-2 d-1
+emiso2:
+  coordinates: Surface
+  formula: (x.SFSO2+x.SO2_CMXF)*1e6*24*3600
+  new_name: emiso2
+  units: mg m-2 d-1
+emiso4:
+  coordinates: Surface
+  formula: (x.SFSO4_PR+x.SO4_PR_CMXF)*1e6*24*3600
+  new_name: emiso4
+  units: mg m-2 d-1
+emiss:
+  coordinates: Surface
+  formula: (x.SFSS_A1+x.SFSS_A2+x.SFSS_A3)*1e6*24*3600
+  new_name: emiss
+  units: mg m-2 d-1
+emiisop:
+  coordinates: Surface
+  formula: (x.SFisoprene)*1e6*24*3600
+  new_name: emiisop
+  units: mg m-2 d-1
 hus:
   coordinates: ModelLevel
   formula: x.Q
@@ -130,14 +190,19 @@ landf:
   units: '1'
 loadbc:
   coordinates: Column
-  formula: x.cb_BC+x.cb_BC_NI_OCW+x.cb_BC_N_OCW+x.cb_BC_A_OCW+x.cb_BC_AI_OCW+x.cb_BC_AC_OCW
+  formula: (x.cb_BC+x.cb_BC_NI_OCW+x.cb_BC_N_OCW+x.cb_BC_A_OCW+x.cb_BC_AI_OCW+x.cb_BC_AC_OCW)*1e6
   new_name: loadbc
-  units: kg m-2
+  units: mg m-2
 loaddms:
   coordinates: Column
-  formula: x.cb_DMS
+  formula: (x.cb_DMS)*1e6
   new_name: loaddms
-  units: kg m-2
+  units: mg m-2
+loaddust:
+  coordinates: Column
+  formula: (x.cb_DUST)*1e6
+  new_name: loaddust
+  units: mg m-2
 loaddu:
   coordinates: Column
   formula: x.cb_DUST+x.cb_DST_A2_OCW+x.cb_DST_A3_OCW
@@ -155,24 +220,24 @@ loadduDSTA3:
   units: kg m-2
 loadoa:
   coordinates: Column
-  formula: x.cb_OM+x.cb_OM_NI_OCW+x.cb_OM_AI_OCW+x.cb_OM_AC_OCW+x.cb_SOA_NA_OCW+x.cb_SOA_A1_OCW
+  formula: (x.cb_OM+x.cb_OM_NI_OCW+x.cb_OM_AI_OCW+x.cb_OM_AC_OCW+x.cb_SOA_NA_OCW+x.cb_SOA_A1_OCW)*1e6
   new_name: loadoa
-  units: kg m-2
+  units: mg m-2
 loadso2:
   coordinates: Column
-  formula: x.cb_SO2
+  formula: (x.cb_SO2)*1e6
   new_name: loadso2
-  units: kg m-2
+  units: mg m-2
 loadso4:
   coordinates: Column
-  formula: 0.9796*(x.cb_SO4_A1+0.7424458962841975*x.cb_SO4_A2+cb_SO4_NA+x.cb_SO4_PR+cb_SO4_AC+x.cb_SO4_A1_OCW+0.7424458962841975*x.cb_SO4_A2_OCW+x.cb_SO4_AC_OCW+x.cb_SO4_NA_OCW+x.cb_SO4_PR_OCW)
+  formula: (0.9796*(x.cb_SO4_A1+0.7424458962841975*x.cb_SO4_A2+x.cb_SO4_NA+x.cb_SO4_PR+x.cb_SO4_AC+x.cb_SO4_A1_OCW+0.7424458962841975*x.cb_SO4_A2_OCW+x.cb_SO4_AC_OCW+x.cb_SO4_NA_OCW+x.cb_SO4_PR_OCW))*1e6
   new_name: loadso4
-  units: kg m-2
+  units: mg m-2
 loadss:
   coordinates: Column
-  formula: x.cb_SALT+x.cb_SS_A1_OCW+x.cb_SS_A2_OCW+x.cb_SS_A3_OCW
+  formula: (x.cb_SALT+x.cb_SS_A1_OCW+x.cb_SS_A2_OCW+x.cb_SS_A3_OCW)*1e6
   new_name: loadss
-  units: kg m-2
+  units: mg m-2
 lwp:
   coordinates: Column
   formula: x.TGCLDLWP
@@ -228,11 +293,6 @@ od440aer:
   formula: x.DOD440
   new_name: od440aer
   units: '1'
-od440aer_v2:
-  coordinates: Column
-  formula: x.AODVIS
-  new_name: od440aer
-  units: '1'
 od440dust:
   coordinates: Column
   formula: x.D440_DU
@@ -250,7 +310,12 @@ od440dustDSTA3:
   units: '1'
 od550aer:
   coordinates: Column
-  formula: x.DOD550
+  formula: x.DOD550/x.DAYFOC
+  new_name: od550aer
+  units: '1'
+od550aer_v2:
+  coordinates: Column
+  formula: x.AODVIS/x.DAYFOC
   new_name: od550aer
   units: '1'
 od550aerh2o:
@@ -270,7 +335,7 @@ od550csaer:
   units: '1'
 od550dust:
   coordinates: Column
-  formula: x.D550_DU
+  formula: x.D550_DU/x.DAYFOC
   new_name: od550dust
   units: '1'
 od550dustDSTA2:
@@ -290,7 +355,7 @@ od550gt1aer:
   units: '1'
 od550lt1aer:
   coordinates: Column
-  formula: x.DLT_SS+x.DLT_DUST+x.DLT_SO4+x.DLT_BC+x.DLT_POM
+  formula: (x.DLT_SS+x.DLT_DUST+x.DLT_SO4+x.DLT_BC+x.DLT_POM)/x.DAYFOC
   new_name: od550lt1aer
   units: '1'
 od550lt1dust:
@@ -340,9 +405,14 @@ orog:
   units: m
 pr:
   coordinates: Surface
-  formula: 1000*x.PRECT
+  formula: 1000*(x.PRECC+x.PRECL)
   new_name: pr
   units: kg m-2 s-1
+prmm:
+  coordinates: Surface
+  formula: (x.PRECC+x.PRECL)*1000*3600*24
+  new_name: prmm
+  units: mm day-1
 prc:
   coordinates: Column
   formula: 1000*x.PRECC
@@ -515,7 +585,7 @@ concpm25:
   units: ug m-3
 concso2:
   coordinates: Surface
-  formula: (x.PS/287.0/TS)*x.SO2[:,{LL},:,:]*1e9*64.066/28.97
+  formula: (x.PS/287.0/x.TS)*x.SO2[:,{LL},:,:]*1e9*64.066/28.97
   new_name: concso2
   units: ug m-3
 concso4:
@@ -553,6 +623,11 @@ ts:
   formula: x.TS
   new_name: ts
   units: K
+wetbc:
+  coordinates: Surface
+  formula: -1.0*(x.BC_ACSFWET+x.BC_AISFWET+x.BC_ASFWET+x.BC_AXSFWET+x.BC_NISFWET+x.BC_NSFWET+x.BC_AC_OCWSFWET+x.BC_AI_OCWSFWET+x.BC_A_OCWSFWET+x.BC_NI_OCWSFWET+x.BC_N_OCWSFWET)
+  new_name: wetbc
+  units: kg m-2 s-1
 wetdust:
   coordinates: Surface
   formula: -1.0*(x.DST_A2SFWET+x.DST_A3SFWET+x.DST_A2_OCWSFWET+x.DST_A3_OCWSFWET)
@@ -567,6 +642,26 @@ wetdustDSTA3:
   coordinates: Surface
   formula: -1.0*(x.DST_A3SFWET+x.DST_A3_OCWSFWET)
   new_name: wetdustDSTA3
+  units: kg m-2 s-1
+wetoa:
+  coordinates: Surface
+  formula: -1.0*(x.OM_ACSFWET+x.OM_AISFWET+x.OM_NISFWET+x.OM_AC_OCWSFWET+x.OM_AI_OCWSFWET+x.OM_NI_OCWSFWET+x.SOA_A1SFWET+x.SOA_NASFWET+x.SOA_A1_OCWSFWET+x.SOA_NA_OCWSFWET)
+  new_name: wetoa
+  units: kg m-2 s-1
+wetso2:
+  coordinates: Surface
+  formula: (x.WD_A_SO2)
+  new_name: wetso2
+  units: kg m-2 s-1
+wetso4:
+  coordinates: Surface
+  formula: -(x.SO4_A1SFWET+x.SO4_A2SFWET+x.SO4_ACSFWET+x.SO4_NASFWET+x.SO4_PRSFWET+x.SO4_A1_OCWSFWET+x.SO4_A2_OCWSFWET+x.SO4_AC_OCWSFWET+x.SO4_NA_OCWSFWET+x.SO4_PR_OCWSFWET)*1e6*24*3600
+  new_name: wetso4
+  units: mg m-2 d-1
+wetss:
+  coordinates: Surface
+  formula: -1.0*(x.SS_A1SFWET+x.SS_A2SFWET+x.SS_A3SFWET+x.SS_A1_OCWSFWET+x.SS_A2_OCWSFWET+x.SS_A3_OCWSFWET)
+  new_name: wetss
   units: kg m-2 s-1
 ztp:
   coordinates: Column

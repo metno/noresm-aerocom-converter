@@ -37,7 +37,7 @@ AVAILABLEMONTHS = [
 # PERIOD=9999
 # PERIOD=1850
 CONSTANTS = dict(
-    LL=31,
+    #LL=31,
     # converts from sulfuric acid (H2SO4) to SO4 (96/98 MW)
     SF1="0.9796",
     # converts from ammonium sulfate (NH4_2SO4) to SO4 (96/134 MW)
@@ -68,7 +68,7 @@ class Level(str, Enum):
 
 
 def _get_file_list(
-    inputdir: str, experiment: str, years: List[str]
+    inputdir: str, experiment: str, years: List[str], raw: bool
 ) -> dict[str, list[str]]:
     files = {}
     for year in years:
@@ -76,7 +76,8 @@ def _get_file_list(
         for month in range(1, 13):
             folder = Path(inputdir)
             if folder.is_dir():
-                filenames = folder.glob(f"{experiment}.cam.h0*.{year}-{month:02}.nc")
+                filenames = folder.glob(f"{experiment}.cam.h0a.{year}-{month:02}.nc") if raw else folder.glob(f"{experiment}.cam.h0.{year}-{month:02}.nc")
+                #filenames = folder.glob(f"{experiment}.cam.h0*.{year}-{month:02}.nc")
                 for full_name in filenames:
                     # full_name = f"{inputdir}/{experiment}.cam.h0*.{year}-{month:02}.nc"
                     if Path(full_name).exists():
@@ -88,6 +89,23 @@ def _get_file_list(
                         continue
             else:
                 raise ValueError(f"Folder {inputdir} does not exist")
+
+        if not file_year: #TEMPORARY FIX AS SOME RAW CASES HAVE DIFFERENT FILECODES
+            for month in range(1,13):
+                if folder.is_dir():
+                    filenames = folder.glob(f"{experiment}.cam.h0*.{year}-{month:02}.nc")
+                    for full_name in filenames:
+                        if Path(full_name).exists():
+                            file_year.append(
+                                # f"{inputdir}/{experiment}.cam.h0*.{year}-{month:02}.nc"
+                                full_name
+                            )
+                        else:
+                            continue
+
+                else:
+                    raise ValueError(f"Folder {inputdir} does not exist")
+
         files[year] = file_year
 
     return files
@@ -174,7 +192,7 @@ def _convert(
     instructions = get_conversion_yaml(raw=raw)  # get_conversion_intstructions(LL)
     if variables is None:
         variables = list(instructions.keys())
-    files = _get_file_list(inputdir, experiment, years)
+    files = _get_file_list(inputdir, experiment, years, raw)
     for year in files:
         console.print(f"Converting for year {year}, with reference year {baseyear}")
         data = _open_year_dataset(files[year])
